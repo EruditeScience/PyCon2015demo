@@ -57,7 +57,8 @@ class Session(object):
         url = HOST + ENDPOINTS['NEXT_STEP_PATH'] + '/' + str(self.session_id)
         request = requests.post(url, data=params)
         request_json = json.loads(request.content)
-        self.feedback = request_json['text'][self.language][self.medium]['text']
-        self.finished = request_json['finished']
         self.in_error = request_json['in_error']
-        self.correct = request_json['correct']
+        if not self.in_error:
+            self.feedback = request_json['text'][self.language][self.medium]['text']
+            self.finished = request_json['finished']
+            self.correct = request_json['correct']
