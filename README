@@ -1,0 +1,35 @@
+EruditeScience Sample API for PyCon 2015
+========================================
+
+<pre>
+
+$ git clone git@github.com:EruditeScience/PyCon2015demo.git
+$ cd PyCon2015demo
+$ python
+Python 2.7.3 (default, Mar 13 2014, 11:03:55) 
+[GCC 4.7.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+
+>>> from erudite_science import Sphinx
+>>> sphinx = Sphinx(language='en', medium='plain')
+This is a limited demo of EruditeScience Sphinx API for PyCon 2015, enjoy it!
+
+>>> session = sphinx.create_session(level=3)
+>>> print session.formula
+(36*1+13-7)/((82+1)/(47+36))
+
+>>> session.next_step("(36*1+13-7)/(82/(47+36))")
+>>> print session.correct
+False
+
+>>> print session.feedback
+In computing 82+1 you confused the addition with a multiplication. Try again.
+
+>>> session.next_step("(36*1+13-7)/(83/(47+36))")
+>>> print session.feedback
+Keep going!
+
+>>> session.next_step("42")
+Well done!
+
+</pre>
