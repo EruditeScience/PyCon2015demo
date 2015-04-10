@@ -3,7 +3,7 @@ EruditeScience Sample API for PyCon 2015
 
 <pre>
 
-$ git clone git@github.com:EruditeScience/PyCon2015demo.git
+$ git clone https://github.com/EruditeScience/PyCon2015demo.git
 $ cd PyCon2015demo
 $ python
 Python 2.7.3 (default, Mar 13 2014, 11:03:55) 
