@@ -20,8 +20,8 @@ import json
 HOST = "http://pycon2015.eruditescience.com/api"
     
 ENDPOINTS = {
-    "CREATE_SESSION_PATH": '/session/new',
-    "NEXT_STEP_PATH": '/step'
+    "CREATE_SESSION_PATH": '/sessions',
+    "NEXT_STEP_PATH": '/sessions/%d/step'
 }
 
 class Sphinx(object):
@@ -54,7 +54,7 @@ class Session(object):
 
     def next_step(self, formula):
         params = {'formula': formula}
-        url = HOST + ENDPOINTS['NEXT_STEP_PATH'] + '/' + str(self.session_id)
+        url = HOST + ENDPOINTS['NEXT_STEP_PATH'] % (self.session_id,)
         request = requests.post(url, data=params)
         request_json = json.loads(request.content)
         self.in_error = request_json['in_error']
@@ -62,3 +62,8 @@ class Session(object):
             self.feedback = request_json['text'][self.language][self.medium]['text']
             self.finished = request_json['finished']
             self.correct = request_json['correct']
+        else:
+            self.finished = True
+            self.correct = False
+            self.feedback = "Server Error"
+
