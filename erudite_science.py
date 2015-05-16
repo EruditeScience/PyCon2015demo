@@ -40,7 +40,7 @@ class Sphinx(object):
         params = { 'level': level }
         if formula is not None:
             params['formula'] = formula
-        request = requests.get(HOST + ENDPOINTS["CREATE_SESSION_PATH"], params=params)
+        request = requests.post(HOST + ENDPOINTS["CREATE_SESSION_PATH"], data=params)
         request_json = json.loads(request.content)
         return Session(request_json['formula'], request_json['session_id'], self.language, self.medium)
 
