@@ -21,7 +21,8 @@ HOST = "http://pycon2015.eruditescience.com/api"
     
 ENDPOINTS = {
     "CREATE_SESSION_PATH": '/sessions',
-    "NEXT_STEP_PATH": '/sessions/%d/step'
+    "NEXT_STEP_PATH": '/sessions/%d/step',
+    "TTS": '/speech/%d'
 }
 
 class Sphinx(object):
@@ -60,10 +61,29 @@ class Session(object):
         self.in_error = request_json['in_error']
         if not self.in_error:
             self.feedback = request_json['text'][self.language][self.medium]['text']
+            if 'speech' in request_json['text'][self.language] and 'tts-id' in request_json['text'][self.language]['speech']:
+                self.tts_id = int(request_json['text'][self.language]['speech']['tts-id'])
             self.finished = request_json['finished']
             self.correct = request_json['correct']
         else:
             self.finished = True
             self.correct = False
             self.feedback = "Server Error"
+
+
+    def speak_feedback(self):
+        if self.tts_id:
+            import tempfile
+            import os
+        
+            request = requests.get(HOST + ENDPOINTS['TTS'] % (self.tts_id,))
+            # download the speech file
+            (f,tmpfile) = tempfile.mkstemp(suffix='.mp3',prefix='tts')
+            os.close(f)
+            with open(tmpfile,'wb') as f:
+                f.write(request.content)
+            # play it using sox
+            os.system("play %s" % (tmpfile,))
+            # os.unlink(tmpfile)
+            
 

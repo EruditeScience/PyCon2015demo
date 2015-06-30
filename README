@@ -30,6 +30,9 @@ In computing 82+1 you confused the addition with a multiplication. Try again.
 Keep going!
 
 >>> session.next_step("42")
+>>> print session.feedback
 Well done!
 
 </pre>
+
+Try medium='speech' and session.speak_feedback() (requires sox installed).
